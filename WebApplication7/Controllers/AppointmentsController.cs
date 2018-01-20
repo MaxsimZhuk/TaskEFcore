@@ -21,7 +21,8 @@ namespace WebApplication7.Controllers
         // GET: Appointments
         public async Task<IActionResult> Index()
         {
-            var appointmentContext = _context.Appointments.Include(a => a.Category);
+            
+            var appointmentContext = _context.Appointments.Where(a => a.EndOfActuality > DateTime.Now);
             return View(await appointmentContext.ToListAsync());
         }
 
@@ -60,6 +61,7 @@ namespace WebApplication7.Controllers
         {
             if (ModelState.IsValid)
             {
+                appointment.Inserted = DateTime.Now;
                 _context.Add(appointment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
