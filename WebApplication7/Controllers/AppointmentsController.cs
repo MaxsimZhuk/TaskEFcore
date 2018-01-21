@@ -59,9 +59,9 @@ namespace WebApplication7.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,EndOfActuality,Description,CategoryId,Inserted")] Appointment appointment)
         {
+            appointment.Inserted = DateTime.Now;
             if (ModelState.IsValid)
             {
-                appointment.Inserted = DateTime.Now;
                 _context.Add(appointment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
